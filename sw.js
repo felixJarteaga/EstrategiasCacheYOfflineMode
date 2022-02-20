@@ -1,21 +1,25 @@
 
 
-self.addEventListener('fetch',event =>{
 
-  const offlineResp = new Response(`
-      Bienvenido a mi pagina web
-      Disculpa, pero para usarla, necesitas Internet
-  
-  `);
-
-  const resp = fetch( event.request )
-                            .catch( ()=>{
-
-                              return offlineResp;
-                            } );
-
-  event.respondWith( resp );
-
-});
+self.addEventListener('install', evenInstall =>{
 
 
+  const cacheProm = caches.open('cache-1').then( cache =>{
+
+    return cache.addAll([
+
+      
+      '/index.html',
+      '/css/style.css',
+      '/img/main.jpg',
+      'https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css',
+      '/js/app.js'
+
+    ]);
+
+  } );
+
+  evenInstall.waitUntil( cacheProm );
+
+
+})
